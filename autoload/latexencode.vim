@@ -23,4 +23,4 @@ function! latexencode#latexencode(start, end) abort
 
   let &gdefault = gdefault
   normal! g``
-endfunction!
+endfunction
