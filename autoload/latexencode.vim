@@ -24,3 +24,25 @@ function! latexencode#latexencode(start, end) abort
   let &gdefault = gdefault
   normal! g``
 endfunction
+
+function! latexencode#latex2text(start, end) abort
+  normal! m`
+  " join all lines
+  exe a:start . ',' . a:end . 'join'
+
+  " put one sentence onto one line
+  let gdefault = &gdefault
+  set gdefault&
+
+  let subst =
+      \ '\C\v(%(%([^[:digit:]IVX]|[\])''"])[.]|[' . g:latexencode_punctuation_marks . '])[[:space:]\])''"])'
+      \ . '/'
+      \ .'\1\r'
+  exe 'silent keeppatterns ' . "'[,']" . 'substitute/' . subst . '/geI'
+
+  " convert LaTeX commands to unicode symbols
+  exe "'[,']" . '!latex2text --quiet'
+
+  let &gdefault = gdefault
+  normal! g``
+endfunction

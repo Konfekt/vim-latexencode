@@ -1,1 +1,1 @@
-This Vim plug-in provides a command `:LatexEncode` that operates on a range (by default the whole buffer) and converts UTF-8 characters to LaTeX commands using [pylatexenc](https://github.com/phfaist/pylatexenc).
+This Vim plug-in provides the commands `:LatexEncode` and `:Latex2Text` that operate on a range (by default the whole buffer) and convert UTF-8 characters to LaTeX commands (and vice-versa) using [pylatexenc](https://github.com/phfaist/pylatexenc).
