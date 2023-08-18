@@ -1,48 +1,13 @@
 function! latexencode#latexencode(start, end) abort
   normal! m`
-  " join all lines
-  exe a:start . ',' . a:end . 'join'
-
-  " put one sentence onto one line
-  let gdefault = &gdefault
-  set gdefault&
-
-  let subst =
-      \ '\C\v(%(%([^[:digit:]IVX]|[\])''"])[.]|[' . g:latexencode_punctuation_marks . '])[[:space:]\])''"])' 
-      \ . '/'
-      \ .'\1\r'
-  exe 'silent keeppatterns ' . "'[,']" . 'substitute/' . subst . '/geI'
-
   " convert unicode symbols to LaTeX commands
-  exe "'[,']" . '!latexencode --quiet'
-
-  " replace \\ensuremath{...} by $...$
-  exe 'silent keeppatterns ' . "'[,']" . 'substitute/\v\\ensuremath[{]([^}]+)[}]/$\1$/geI'
-  " replace $...$ $...$ by $... ...$
-  exe 'silent keeppatterns ' . "'[,']" . 'substitute/\v\$\s+\$/ /geI'
-
-  let &gdefault = gdefault
+  keepjumps exe a:start . ',' . a:end . '!latexencode --quiet'
   normal! g``
 endfunction
 
 function! latexencode#latex2text(start, end) abort
   normal! m`
-  " join all lines
-  exe a:start . ',' . a:end . 'join'
-
-  " put one sentence onto one line
-  let gdefault = &gdefault
-  set gdefault&
-
-  let subst =
-      \ '\C\v(%(%([^[:digit:]IVX]|[\])''"])[.]|[' . g:latexencode_punctuation_marks . '])[[:space:]\])''"])'
-      \ . '/'
-      \ .'\1\r'
-  exe 'silent keeppatterns ' . "'[,']" . 'substitute/' . subst . '/geI'
-
-  " convert LaTeX commands to unicode symbols
-  exe "'[,']" . '!latex2text --quiet'
-
-  let &gdefault = gdefault
+  " convert unicode symbols to LaTeX commands
+  keepjumps exe a:start . ',' . a:end . '!latex2text --quiet'
   normal! g``
 endfunction
