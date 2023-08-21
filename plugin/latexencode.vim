@@ -6,7 +6,7 @@ if !executable('latexencode')
   finish
 endif
 
-command! -range LatexEncode call latexencode#latexencode(<line1>, <line2>)
-command! -range Latex2Text  call latexencode#latex2text(<line1>, <line2>)
+command! -range LatexEncode call latexencode#latexencode()
+command! -range Latex2Text  call latexencode#latex2text()
 
 let g:loaded_latexencode = 1
