@@ -21,15 +21,13 @@ function! latexencode#get_visual_selection(mode)
     else
         return ''
     endif
-    for line in lines
-        echom line
-    endfor
     return join(lines, "\n")
 endfunction
 
 function! latexencode#latextranscode(cmd) abort
   let selected_text = latexencode#get_visual_selection(visualmode())
-  let encoded_text = trim(system('echo '.shellescape(selected_text).' | '.a:cmd))
+  let command = "echo \"".selected_text->substitute('\\', '\\\\\', "g")."\" | ".a:cmd
+  let encoded_text = trim(system(command))
 
   :execute "'<,'>s/".escape(selected_text, '\')."/".escape(encoded_text, '\')."/"
   redraw
